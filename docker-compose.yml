@@ -1,0 +1,45 @@
+version: '2.0'
+
+services:
+  master:
+    build: 
+      context: ./app
+      args:
+        KALI_USER: ${KALI_USER}
+        KALI_PASSWORD: ${KALI_PASSWORD}
+    privileged: true
+    # cap_add, security_opt, and volume required for the image to function
+    cap_add:
+      - net_admin
+    environment:
+      TZ: 'Asia/Shanghai'
+    hostname: kali.evling.me
+    restart: always
+    networks:
+      wan:
+        ipv4_address: 172.16.20.20
+    tmpfs:
+      - /run
+      - /tmp
+    restart: always
+    security_opt:
+      - label:disable
+    stdin_open: true
+    tty: true
+    privileged: true
+    ports:
+      - "3389:3389"
+    #   entrypoint: ["sh"]
+    working_dir: /data
+    volumes:
+      - /dev/net:/dev/net:z
+      - ./data:/data
+        #- ./app/init.sh:/init.sh:ro
+      #- ./db:/var/lib/postgresql/12/main
+
+networks:
+  wan:
+    ipam:
+      config:
+        - subnet: 172.16.20.0/24
+          gateway: 172.16.20.1
