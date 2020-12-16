@@ -27,6 +27,7 @@ services:
     stdin_open: true
     tty: true
     privileged: true
+    shm_size: 1073741824
     ports:
       - "3389:3389"
     #   entrypoint: ["sh"]
