@@ -15,9 +15,7 @@ services:
       TZ: 'Asia/Shanghai'
     hostname: kali.evling.me
     restart: always
-    networks:
-      wan:
-        ipv4_address: 172.16.20.20
+    network_mode: "host"
     tmpfs:
       - /run
       - /tmp
@@ -38,9 +36,3 @@ services:
         #- ./app/init.sh:/init.sh:ro
       #- ./db:/var/lib/postgresql/12/main
 
-networks:
-  wan:
-    ipam:
-      config:
-        - subnet: 172.16.20.0/24
-          gateway: 172.16.20.1
